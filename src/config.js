@@ -31,8 +31,8 @@ function (Settings) {
      * your banana web application.
      * @type {String}
      */
-    solr: "/solr/",
-    solr_core: "logstash_logs",
+    solr: "http://localhost:8983/solr/",
+    solr_core: "ogp",
 
     /**
      * The default Solr index to use for storing objects internal to Banana, such as 
@@ -65,7 +65,7 @@ function (Settings) {
      * @type {Boolean}
      */
     USE_ADMIN_LUKE: true,
-    USE_ADMIN_CORES: true,
+    USE_ADMIN_CORES: false,
 
     /**
      * Panel modules available. Panels will only be loaded when they are defined in the
@@ -75,6 +75,9 @@ function (Settings) {
     panel_names: [
       'histogram',
       'map',
+      'heatgrid',
+      'mapfilter',
+      'serverPageTable',
       'table',
       'filtering',
       'timepicker',
@@ -84,6 +87,7 @@ function (Settings) {
       'ticker',
       'bettermap',
       'query',
+      'advancedQuery',
       'terms',
       'rangeFacet',
       'heatmap',
