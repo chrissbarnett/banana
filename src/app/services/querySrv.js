@@ -129,7 +129,8 @@ function (angular, _, config) {
       if (dashboard.current.solr.global_params) {
         solr_q += dashboard.current.solr.global_params;
       }
-      return solr_q;
+
+      return  solr_q;
     };
 
     var add_qf = function (solr_q, id) {
@@ -168,9 +169,8 @@ function (angular, _, config) {
     // used in multiquery case only:  it return the query in form "query1 OR query2 OR ..."
     this.getORquery = function() {
       var solr_q = 'q=';
-      for (var key in self.list)
+      for (var key in self.list) {
         solr_q += encodeURIComponent(self.list[key].query) + " OR ";
-
       solr_q = solr_q.substring(0, solr_q.length - 4);
       solr_q = add_globals(solr_q);
 
@@ -180,9 +180,8 @@ function (angular, _, config) {
         solr_q = add_pf_ps(solr_q, id);
 
       }
-
       return solr_q;
-    }
+    };
 
     this.findQuery = function(queryString) {
       return _.findWhere(self.list,{query:queryString});
