@@ -5,7 +5,8 @@
   </div>
   <div class="span3">
     <h6>Time Field</h6>
-    <input bs-typeahead="fields.list" type="text" class="input-small" ng-model="panel.timefield">
+      <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small"
+             ng-model="panel.timefield">
   </div>
 </div>
 <div class="row-fluid">

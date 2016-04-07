@@ -8,7 +8,8 @@
 
     <div class="container" ng-repeat="qf in panel.queryFields">
         <div class="kibana-row">
-            <input data-ng-model="qf.field" type="text" bs-typeahead="fields.list" class="input-large">
+            <input data-ng-model="qf.field" type="text" bs-typeahead bs-options="f for f in fields.list"
+                   class="input-large">
             <input data-ng-model="qf.boost" type="number" step="any" class="input-mini">
             <span class="icon-minus-sign" bs-tooltip="'Remove'" ng-click="removeQueryField($index)"/>
             <span ng-show="$last" class="icon-plus-sign" bs-tooltip="'Add another query field.'"
@@ -20,7 +21,8 @@
 
     <div class="container" ng-repeat="pf in panel.phraseFields">
         <div class="kibana-row">
-            <input data-ng-model="pf.field" type="text" bs-typeahead="fields.list" class="input-large">
+            <input data-ng-model="pf.field" type="text" bs-typeahead bs-options="f for f in fields.list"
+                   class="input-large">
             <input data-ng-model="pf.boost" type="number" step="any" class="input-mini">
             <span class="icon-minus-sign" bs-tooltip="'Remove'" ng-click="removePhraseField($index)"/>
             <span ng-show="$last" class="icon-plus-sign" bs-tooltip="'Add another phrase field.'"

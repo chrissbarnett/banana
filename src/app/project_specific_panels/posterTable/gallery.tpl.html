@@ -1,0 +1,116 @@
+<style>
+    .poster-wrapper {
+        position: fixed;
+        top: 50px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: flex;
+        left: 0;
+        margin-bottom: auto;
+        margin-top: auto;
+        right: 0;
+        text-align: center;
+    }
+
+    .poster-nav {
+        font-size: 50px;
+        width: 50px;
+        height: 100%;
+    }
+
+    .poster-image {
+        /*width: calc(100% - 150px);*/
+    }
+
+    .poster-image div {
+        padding: 0;
+        margin: 0;
+    }
+
+    .poster-nav-prev {
+    }
+
+    .poster-nav-next {
+    }
+
+    .poster-title {
+        font-size: 2em;
+        line-height: 1.2em;
+        font-weight: lighter;
+    }
+
+    .poster-preview div i, img {
+        display: inline-block;
+    }
+
+    .poster-link {
+        float: right;
+    }
+
+    .poster-citation {
+        max-width: 75%;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        left: 0;
+        right: 0;
+        font-size: 1.2em;
+        text-align: left;
+        padding: 5px;
+    }
+
+    .poster-citation div.cell {
+        padding: 5px;
+        display: inline-block;
+    }
+
+    .poster-citation .last-col {
+        text-align: right;
+    }
+
+    .poster-wrapper td {
+        padding: 0;
+        margin: 0;
+    }
+
+    .poster-close {
+        font-size: 25px;
+        margin-left: 27px;
+        margin-top: -25px;
+        position: absolute;
+        top: 0;
+    }
+
+</style>
+
+<div class="poster-wrapper" ng-click="$hide()">
+    <div class="poster-preview">
+        <table style="margin: auto">
+            <tr>
+                <td>
+                    <div class="poster-nav poster-nav-prev pointer" ng-show="hasPrev(poster.index)"
+                         ng-click="previewPrev(poster.index); $event.stopPropagation();"><i class="icon-angle-left"></i>
+                    </div>
+                </td>
+                <td class="poster-image" ng-click="$event.stopPropagation()"><img ng-src="{{poster.preview}}"/></td>
+                <td>
+                    <div class="poster-nav poster-nav-next pointer" ng-show="hasNext(poster.index)"
+                         ng-click="previewNext(poster.index); $event.stopPropagation();"><i
+                        class="icon-angle-right"></i></div>
+                    <div class="poster-close pointer" ng-click="$hide()"><i class="icon-remove"></i></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="poster-citation" ng-click="$event.stopPropagation();">
+        <div>
+            <div class="cell poster-title">{{poster.title}}</div>
+        </div>
+        <div>
+            <div class="cell">{{poster.author}}</div>
+            <div class="cell last-col">{{poster.date}}</div>
+            <div class="cell last-col pointer poster-link"><a ng-href="{{poster.link}}" target="_blank"><i
+                class="icon-download"></i>&nbsp;full pdf</a></div>
+        </div>
+
+    </div>
+</div>

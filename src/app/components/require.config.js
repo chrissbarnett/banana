@@ -17,7 +17,9 @@ require.config({
     angular:                  '../vendor/angular/angular',
     'angular-dragdrop':       '../vendor/angular/angular-dragdrop',
     'angular-strap':          '../vendor/angular/angular-strap',
+      'angular-strap-tpl': '../vendor/angular/angular-strap.tpl',
     'angular-sanitize':       '../vendor/angular/angular-sanitize',
+      'angular-route': '../vendor/angular/angular-route',
     timepicker:               '../vendor/angular/timepicker',
     datepicker:               '../vendor/angular/datepicker',
 
@@ -25,8 +27,8 @@ require.config({
     'underscore-src':         '../vendor/underscore',
     bootstrap:                '../vendor/bootstrap/bootstrap',
 
-    jquery:                   '../vendor/jquery/jquery-1.12.1',
-    'jquery-ui':              '../vendor/jquery/jquery-ui-1.10.3',
+      jquery: '../vendor/jquery/jquery',
+      'jquery-ui': '../vendor/jquery/jquery-ui',
 
     'extend-jquery':          'components/extend-jquery',
 
@@ -42,7 +44,9 @@ require.config({
     modernizr:                '../vendor/modernizr-2.6.1',
     elasticjs:                '../vendor/elasticjs/elastic-angular-client',
     solrjs:                   '../vendor/solrjs/solr-angular-client',
-    d3:                       '../vendor/d3'
+      d3: '../vendor/d3',
+      leaflet: '../vendor/leaflet/leaflet',
+      chroma: '../vendor/chroma'
   },
   shim: {
     underscore: {
@@ -66,6 +70,14 @@ require.config({
       exports: 'jQuery'
     },
 
+      leaflet: {
+          exports: 'L'
+      },
+
+      chroma: {
+          exports: 'chroma'
+      },
+
     // simple dependency declaration
     'jquery-ui':            ['jquery'],
     'jquery.flot':          ['jquery'],
@@ -86,6 +98,7 @@ require.config({
     'angular-touch':        ['angular'],
 
     'angular-strap':        ['angular', 'bootstrap','timepicker', 'datepicker'],
+      'angular-strap-tpl': ['angular-strap'],
 
     timepicker:             ['jquery', 'bootstrap'],
     datepicker:             ['jquery', 'bootstrap'],

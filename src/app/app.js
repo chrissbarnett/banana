@@ -11,7 +11,8 @@ define([
   'solrjs',
   'bootstrap',
   'angular-sanitize',
-  'angular-strap',
+        'angular-strap-tpl',
+        'angular-route',
   'angular-dragdrop',
   'extend-jquery'
 ],
@@ -93,9 +94,10 @@ function (angular, $, _, appLevelRequire) {
   var apps_deps = [
     'elasticjs.service',
     'solrjs.service',
-    '$strap.directives',
+      'mgcrea.ngStrap',
     'ngSanitize',
     'ngDragDrop',
+      'ngRoute',
     'kibana'
   ];
 

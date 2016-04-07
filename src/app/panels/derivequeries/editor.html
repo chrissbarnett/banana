@@ -6,7 +6,8 @@
     </div>
     <div class="span3">
       <label class="small">Field</label>
-      <input type="text" bs-typeahead="fields.list" style="width:80%" ng-change="set_refresh(true)" ng-model='panel.field'></select>
+        <input type="text" bs-typeahead bs-options="f for f in fields.list" style="width:80%"
+               ng-change="set_refresh(true)" ng-model='panel.field'></select>
     </div>
     <div class="span3">
       <label class="small">Query Mode</label>

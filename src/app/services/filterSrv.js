@@ -22,7 +22,8 @@ define([
 
     // For convenience
     // var ejs = ejsResource(config.elasticsearch);
-    var solrserver = dashboard.current.solr.server + dashboard.current.solr.core_name || config.solr + config.solr_core;
+      var solrserver = dashboard.get_data_core() || config.solr + config.solr_core;
+
     var sjs = sjsResource(solrserver);
 
     var _f = dashboard.current.services.filter;
@@ -73,18 +74,44 @@ define([
         if(_.isUndefined(filter.type)) {
           return false;
         } else {
-          var _id = nextId();
-          var _filter = {
-            alias: '',
-            id: _id
-          };
-          _.defaults(filter,_filter);
-          self.list[_id] = filter;
-          self.ids.push(_id);
-          return _id;
+            if (this.checkFilter(filter).length === 0) {
+                var _id = nextId();
+
+                var _filter = {
+                    alias: '',
+                    id: _id
+                };
+                filter = _.extendOwn(filter, _filter);
+                self.list[_id] = filter;
+                if (_.where(self.ids, {id: _id}).length === 0) {
+                    self.ids.push(_id);
+                }
+                return _id;
+
+            }
+
         }
       }
     };
+
+      this.checkFilter = function (filter) {
+
+          var matcher = {type: filter.type};
+          if (_.has(filter, 'query')) {
+              matcher.query = filter.query;
+          } else if (_.has(filter, 'value')) {
+              matcher.value = filter.value;
+          } else if (_.has(filter, 'from')) {
+              matcher.from = filter.from;
+              matcher.to = filter.to;
+          }
+
+          var matches = _.where(self.list, matcher);
+          if (matches.length !== 0) {
+              matches[0].mandate = filter.mandate;
+          }
+          return matches;
+      };
 
     /**
      * Translate a key to the value defined in a dashboard's lang field
@@ -414,6 +441,7 @@ define([
         delete self.list[id];
         // This must happen on the full path also since _.without returns a copy
         self.ids = dashboard.current.services.filter.ids = _.without(self.ids,id);
+          //TODO: idQueue was problematic before continue to use?
         _f.idQueue.unshift(id);
         _f.idQueue.sort(function(v,k){return v-k;});
         return true;
@@ -429,6 +457,21 @@ define([
         return self.ids.length;
       }
     };
+
+      /*
+       //alternative nextId function using underscore unique ids.
+
+       var nextId = function() {
+
+       var _id = _.uniqueId("filter");
+
+       //if there are predefined filters, _.uniqueId may overwrite it
+       while (_.where(self.list, {id: _id}).length >  0){
+       _id = nextId();
+       }
+       return _id;
+       };
+       */
 
     // Now init
     self.init();

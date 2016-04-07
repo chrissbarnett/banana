@@ -3,7 +3,8 @@
         <label class="small">Field
             <tip>This is the facet field.</tip>
         </label>
-        <input type="text" class="input-small" bs-typeahead="fields.list" ng-model="panel.field" ng-change="set_refresh(true)">
+        <input type="text" class="input-small" bs-typeahead bs-options="f for f in fields.list" ng-model="panel.field"
+               ng-change="set_refresh(true)">
     </div>
     <div class="span4">
         <label class="small">Number of Bars

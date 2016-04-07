@@ -2,7 +2,7 @@
     <div class="span4">
         <form class="input-append">
             <h6>Add Facets</h6>
-            <input bs-typeahead="fields.list" type="text" class="input-small" ng-model='newfield'>
+            <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small" ng-model='newfield'>
             <button class="btn" ng-click="add_facet_field(newfield);newfield=''"><i class="icon-plus"></i>
             </button>
         </form>
@@ -48,20 +48,23 @@
         <h6>Title Field
             <tip>The field that will be shown as title field for document</tip>
         </h6>
-        <input bs-typeahead="fields.list" type="text" class="input-small" ng-model="panel.header_field">
+        <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small"
+               ng-model="panel.header_field">
     </div>
     <div class="span2">
         <h6>Body Field
             <tip>The field that will be shown as body field for document</tip>
         </h6>
-        <input bs-typeahead="fields.list" type="text" class="input-small" ng-model="panel.body_field">
+        <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small"
+               ng-model="panel.body_field">
     </div>
 
     <div class="span2">
         <h6> URL field
             <tip>URL field that will be linked to title field</tip>
         </h6>
-        <input bs-typeahead="fields.list" type="text" class="input-small" ng-model="panel.url_field">
+        <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small"
+               ng-model="panel.url_field">
     </div>
 
     <div class="span2">

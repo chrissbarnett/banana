@@ -8,10 +8,12 @@
         <i class="icon-remove-sign pointer remove-query" ng-show="querySrv.ids.length > 1"
            ng-click="querySrv.remove(id);refresh()"></i>
       </span>
-            <input class="search-query panel-query"
+
+            <input type="text" class="search-query panel-query"
                    ng-class="{ 'input-block-level': unPinnedQueries.length==1, 'last-query': $last, 'has-remove': querySrv.ids.length > 1 }"
-                   bs-typeahead="panel.history" data-min-length=0 data-items=100 type="text"
-                   ng-model="querySrv.list[id].query"/>
+                   bs-options="q for q in panel.history" data-min-length=0 data-limit=6
+                   ng-model="querySrv.list[id].query" bs-typeahead/>
+
       <span class="end-query">
         <i class="icon-search pointer" ng-click="refresh(id)" ng-show="$last"></i>
           <!-- Remove the plus icon to disable multiple queries function -->

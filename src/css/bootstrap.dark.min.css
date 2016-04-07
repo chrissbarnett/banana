@@ -5630,6 +5630,11 @@ hr {
     border-bottom: 1px solid #2e3236
 }
 
+.nav-tabs.nav {
+    float: none;
+
+}
+
 div.subnav {
     margin: 0 1px;
     border: 1px solid transparent;

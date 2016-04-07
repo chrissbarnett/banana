@@ -1,7 +1,8 @@
 <div class="row-fluid">
   <div class="span3">
     <label class="small">Field for displaying values <tip>Specify a field to show values on the bar chart</tip></label>
-    <input type="text" class="input-small" bs-typeahead="fields.list" ng-model="panel.field" ng-change="set_refresh(true)">
+      <input type="text" class="input-small" bs-typeahead bs-options="f for f in fields.list" ng-model="panel.field"
+             ng-change="set_refresh(true)">
   </div>
   <div class="span2">
     <label class="small">Number of Rows <tip>Specify a number of rows to retrieve the result set.</tip></label>

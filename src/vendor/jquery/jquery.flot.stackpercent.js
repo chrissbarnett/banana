@@ -55,7 +55,7 @@
                         var num = _data[i].data.length;
                         for (var j = 0; j < num; j++) {
                             var value = 0;
-                            if (_data[i].data[j][1] != null) {
+                            if (_data[i].data[j][value_idx] != null) {
                                 value = _data[i].data[j][value_idx];
                             }
                             if (sums[_data[i].data[j][key_idx] + ""]) {
@@ -76,10 +76,12 @@
             if (!processed) {
                 stackSums = getStackSums(plot.getData());
             }
+            if (s == plot.getData()[0])
+                stackBases = {};
             var newPoints = [];
 
 
-			var key_idx = 0;
+            var key_idx = 0;
 			var value_idx = 1;
 			if (s.bars && s.bars.horizontal && s.bars.horizontal === true) {
 				key_idx = 1;

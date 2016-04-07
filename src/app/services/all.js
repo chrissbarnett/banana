@@ -7,6 +7,8 @@ define([
   './querySrv',
   './timer',
   './panelMove',
-  './solrSrv'
+        './solrSrv',
+        './dbSrv',
+        './geonamesSrv'
 ],
 function () {});

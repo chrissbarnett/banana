@@ -2,7 +2,7 @@
     <div class="span4">
       <form class="input-append">
         <h6>Add Column</h6>
-        <input bs-typeahead="fields.list" type="text" class="input-small" ng-model='newfield'>
+          <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small" ng-model='newfield'>
         <button class="btn" ng-click="toggle_field(newfield);newfield=''"><i class="icon-plus"></i></button>
       </form>
     </div>
@@ -36,7 +36,8 @@
     </div>
     <div class="span3" style="white-space:nowrap" ng-show="panel.sortable">
       <h6>Sort</h6>
-      <input ng-show="all_fields.length<=0 || !all_fields"style="width:85%" ng-model="panel.sort[0]" ng-change="set_refresh(true)" bs-typeahead="fields.list" type="text"></input>
+        <input ng-show="all_fields.length<=0 || !all_fields" style="width:85%" ng-model="panel.sort[0]"
+               ng-change="set_refresh(true)" bs-typeahead bs-options="f for f in fields.list" type="text"></input>
       <select ng-show="all_fields.length>0"style="width:85%" ng-model="panel.sort[0]" ng-change="set_refresh(true)" ng-options="f for f in all_fields"></select>
       <i ng-click="set_sort(panel.sort[0])" ng-class="{'icon-chevron-up': panel.sort[1] == 'asc','icon-chevron-down': panel.sort[1] == 'desc'}"></i>
     </div>
@@ -65,7 +66,8 @@
     </div>
     <div class="span3" ng-show="panel.enableHyperlink">
       <h6>Column for Links</h6>
-      <input type="text" class="input-small" ng-model="panel.hyperlinkColumnForURI" bs-typeahead="fields.list">
+        <input type="text" class="input-small" ng-model="panel.hyperlinkColumnForURI" bs-typeahead
+               bs-options="f for f in fields.list">
     </div>
   </div>
 
@@ -76,7 +78,8 @@
     </div>
     <div class="span4" ng-show="panel.enableImageField">
       <h6>Image Field(s) <tip>Comma separated list of fields that contain image URL.</tip></h6>
-      <input type="text" class="input-large" bs-typeahead="fields.list" ng-model="panel.imageFields" ng-change="set_refresh(true)" ng-list>
+        <input type="text" class="input-large" bs-typeahead bs-options="f for f in fields.list"
+               ng-model="panel.imageFields" ng-change="set_refresh(true)" ng-list>
     </div>
     <div class="span2" ng-show="panel.enableImageField">
       <h6>Image Width <tip>For examples: auto, 85px, or 50%</tip></h6>

@@ -31,7 +31,8 @@ define([
 
         var module = angular.module('kibana.panels.serverPageTable', []);
         app.useModule(module);
-        module.controller('serverPageTable', function ($rootScope, $scope, fields, querySrv, dashboard, filterSrv) {
+        module.controller('serverPageTable', ['$rootScope', '$scope', 'fields', 'querySrv', 'dashboard', 'filterSrv',
+            function ($rootScope, $scope, fields, querySrv, dashboard, filterSrv) {
             $scope.panelMeta = {
                 modals: [
                     {
@@ -108,7 +109,6 @@ define([
                 });
 
                 $scope.panel.exportSize = $scope.panel.size * $scope.panel.pages;
-
                 $scope.fields = fields;
 
                 //make a copy of the fields object for sort
@@ -308,7 +308,7 @@ define([
                     return;
                 }
                 $scope.panelMeta.loading = true;
-                $scope.panel.queries.ids = querySrv.idsByMode($scope.panel.queries);
+                $scope.panel.queries.ids = querySrv.ids;//ByMode($scope.panel.queries);
 
                 // What this segment is for? => to select which indices to query.
                 var _segment = _.isUndefined(segment) ? 0 : segment;
@@ -457,7 +457,7 @@ define([
                 }
                 return obj;
             };
-        });
+            }]);
 
         // This also escapes some xml sequences
         module.filter('tableHighlight', function () {

@@ -4,7 +4,7 @@ define([
 ],
 function (angular, kbn) {
   'use strict';
-
+    //user with newer angular strap version
   angular
     .module('kibana.directives')
     .directive('tip', function($compile) {
@@ -15,11 +15,11 @@ function (angular, kbn) {
           //   kbn.addslashes(elem.text())+'\'"></i>';
           var _t = '';
           if (!attrs['placement']) {
-            _t = '<i class="icon-'+(attrs.icon||'question-sign')+'" bs-tooltip="\''+
-            kbn.addslashes(elem.text())+'\'"></i>';
+              _t = '<i class="icon-' + (attrs.icon || 'question-sign') + '" bs-tooltip data-title="' +
+                  kbn.addslashes(elem.text()) + '"></i>';
           } else {
-            _t = '<i class="icon-'+(attrs.icon||'question-sign')+'" bs-tooltip="\''+
-            kbn.addslashes(elem.text())+'\'" data-placement="'+attrs['placement']+'"></i>';
+              _t = '<i class="icon-' + (attrs.icon || 'question-sign') + '" bs-tooltip data-title="' +
+                  kbn.addslashes(elem.text()) + '" data-placement="' + attrs['placement'] + '"></i>';
           }
           
           elem.replaceWith($compile(angular.element(_t))(scope));

@@ -2,7 +2,8 @@
   <div class="span3">
     <form>
       <h6>Field <tip data-placement="right">2 letter country or state code</tip></h6>
-      <input bs-typeahead="fields.list" type="text" class="input-small" ng-model="panel.field" ng-change="set_refresh(true)">
+        <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small" ng-model="panel.field"
+               ng-change="set_refresh(true)">
     </form>
   </div>
   <div class="span2">
@@ -20,7 +21,8 @@
   </div>
   <div class="span2" ng-show="panel.mode != 'count'">
     <label class="small">Stats Field <tip>This is the field that contains numerical values.</tip></label>
-    <input type="text" class="input-small" bs-typeahead="fields.list" ng-model="panel.stats_field" ng-change="set_refresh(true)">
+      <input type="text" class="input-small" bs-typeahead bs-options="f for f in fields.list"
+             ng-model="panel.stats_field" ng-change="set_refresh(true)">
   </div>
   <div class="span2">
     <label class="small">Decimal Points <tip>The number of digits after the decimal point.</tip></label>

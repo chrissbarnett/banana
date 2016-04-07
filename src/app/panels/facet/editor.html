@@ -2,7 +2,8 @@
     <div class="span4">
         <form class="input-append">
             <h6>Add Facet Field</h6>
-            <input bs-typeahead="fields.list" type="text" class="input-small" ng-model="newfield" ng-disabled="panel.fields.length >= panel.maxnum_facets">
+            <input bs-typeahead bs-options="f for f in fields.list" type="text" class="input-small" ng-model="newfield"
+                   ng-disabled="panel.fields.length >= panel.maxnum_facets">
             <button class="btn" ng-click="add_facet_field(newfield);newfield=''" ng-disabled="panel.fields.length >= panel.maxnum_facets"><i class="icon-plus"></i>
             </button>
         </form>
@@ -23,7 +24,8 @@
     </div>
     <div class="span2">
         <h6>Facet Limit <tip>The maximum number of facets for a field that are returned.</tip></h6>
-        <input bs-typeahead="fields.list" type="number" class="input-small" ng-model="panel.facet_limit">
+        <input bs-typeahead bs-options="f for f in fields.list" type="number" class="input-small"
+               ng-model="panel.facet_limit">
     </div>
     <div class="span4">
         <h6>Max Number of Facet Fields <tip>The maximum number of fields for faceting. Warning: if we specify too many facets on a really big data, we could run into JVM Out Of Memory issue (depending on your setup).</tip></h6>

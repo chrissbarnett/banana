@@ -39,7 +39,7 @@ define([
             query: "*",
             query_h: [],
             pinned: true,
-            history: [],
+            history: [""],
             spyable: true,
             queryType: "",
             remember: 10, // max: 100, angular strap can't take a variable for items param
@@ -50,7 +50,6 @@ define([
         };
         _.defaults($scope.panel, _d);
 
-        $test = $scope;
         $scope.querySrv = querySrv;
         $scope.fields = fields;
         $scope.fieldalert = {};

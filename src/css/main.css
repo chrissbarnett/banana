@@ -31,6 +31,10 @@
   padding-right: 0px;
 }
 
+.nav-tabs {
+    float: none;
+}
+
 .kibana-row {
   margin-left: 15px;
   margin-bottom: 15px;

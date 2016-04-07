@@ -38,7 +38,8 @@
     </div>
     <div class="span2" ng-show="panel.show_stats">
       <label class="small">Stats Field <tip>Not all statistics are supported for all field types. Check Solr documentation for details.</tip></label>
-      <input type="text" class="input-small" placeholder="field name" bs-typeahead="fields.list" ng-model="panel.stats_field" ng-change="set_refresh(true)">
+        <input type="text" class="input-small" placeholder="field name" bs-typeahead bs-options="f for f in fields.list"
+               ng-model="panel.stats_field" ng-change="set_refresh(true)">
     </div>
     <div class="span3" ng-show="panel.show_stats">
       <label class="small">Display Precision <tip>The number of digits to display after the decimal point.</tip></label>

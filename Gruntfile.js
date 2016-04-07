@@ -46,7 +46,7 @@ module.exports = function (grunt) {
       everything_but_less_to_temp: {
         cwd: '<%= srcDir %>',
         expand: true,
-        src: ['**/*', '!**/*.less', '!**/.DS_Store'],
+          src: ['**/*', '!**/*.less', '!**/.DS_Store', '!**/*_old/**'],
         dest: '<%= tempDir %>'
       }
     },
@@ -224,7 +224,9 @@ module.exports = function (grunt) {
         'jquery.flot.pie',
         'angular-sanitize',
         'angular-dragdrop',
-        'd3'
+          'd3',
+          'leaflet',
+          'chroma'
       ]
     }
   ];
@@ -264,6 +266,20 @@ module.exports = function (grunt) {
     'uglify:dest'
   ]);
 
+    // Concat and Minify the src directory into dist
+    grunt.registerTask('build-nolint', [
+        'clean:on_start',
+        'less:dist',
+        'copy:everything_but_less_to_temp',
+        'htmlmin:build',
+        'cssmin:build',
+        'ngmin:build',
+        'requirejs:build',
+        'clean:temp',
+        'build:write_revision',
+        'uglify:dest'
+    ]);
+
   // run a string replacement on the require config, using the latest revision number as the cache buster
   grunt.registerTask('build:write_revision', function() {
     grunt.event.once('git-describe', function (desc) {
@@ -287,7 +303,7 @@ module.exports = function (grunt) {
 
   // build, then zip
   grunt.registerTask('distribute', [
-    'build',
+      'build-nolint',
     'compress:zip',
     'compress:tgz',
     'clean:temp'

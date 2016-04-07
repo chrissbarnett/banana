@@ -66,6 +66,29 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
     this.current = _.clone(_dash);
     this.last = {};
 
+      this.stopScroll = false;
+
+      this.get_banana_core = function () {
+          return config.solr + config.banana_index;
+      };
+
+      this.get_data_core = function () {
+          var primary = self.current.solr.server + self.current.solr.core_name;
+          if (typeof self.current.solr.alt_servers !== "undefined" && self.current.solr.alt_servers.length > 0) {
+              var servers = self.current.solr.alt_servers;
+              var nss = [primary];
+              _.each(servers, function (i) {
+                  nss.push(i + self.current.solr.core_name);
+              });
+              return nss;
+          } else {
+              return primary;
+          }
+      };
+
+      var sjs = sjsResource(this.get_data_core());
+
+
     $rootScope.$on('$routeChangeSuccess',function(){
       // Clear the current dashboard to prevent reloading
       self.current = {};
@@ -374,7 +397,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
       request = type === 'temp' && ttl ? request.ttl(ttl) : request;
 
       // Solr: set sjs.client.server to use 'banana-int' for saving dashboard
-      sjs.client.server(config.solr + config.banana_index);
+        sjs.client.server(this.get_banana_core());
 
       return request.doIndex(
         // Success
@@ -394,7 +417,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
 
     this.elasticsearch_delete = function(id) {
       // Set sjs.client.server to use 'banana-int' for deleting dashboard
-      sjs.client.server(config.solr + config.banana_index);
+        sjs.client.server(this.get_banana_core());
 
       return sjs.Document(config.banana_index,'dashboard',id).doDelete(
         // Success
@@ -410,7 +433,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
 
     this.elasticsearch_list = function(query,count) {
       // set indices and type
-      var solrserver = self.current.solr.server + config.banana_index || config.solr + config.banana_index;
+        var solrserver = this.get_banana_core() || config.solr + config.banana_index;
       sjs.client.server(solrserver);
 
       var request = sjs.Request().indices(config.banana_index).types('dashboard');

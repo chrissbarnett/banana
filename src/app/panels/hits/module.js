@@ -92,7 +92,7 @@ define([
 
       var request = $scope.sjs.Request().indices(dashboard.indices);
 
-      $scope.panel.queries.ids = querySrv.idsByMode($scope.panel.queries);
+        $scope.panel.queries.ids = querySrv.ids;//ByMode($scope.panel.queries);
       // Build the question part of the query
       _.each($scope.panel.queries.ids, function(id) {
         var _q = $scope.sjs.FilteredQuery(
