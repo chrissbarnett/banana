@@ -1,8 +1,9 @@
-<a class="close" ng-click="dismiss()" href="">×</a>
-<h4>
+<div class="popover">
+    <a class="close" ng-click="$hide()" href="">×</a>
+    <h4 class="popover-title">
     Micro Analysis of {{micropanel.field}}
-    <i class="pointer icon-search" ng-click="fieldExists(micropanel.field,'must');dismiss();"></i>
-    <i class="pointer icon-ban-circle" ng-click="fieldExists(micropanel.field,'mustNot');dismiss();"></i>
+        <i class="pointer icon-search" ng-click="fieldExists(micropanel.field,'must');$hide();"></i>
+        <i class="pointer icon-ban-circle" ng-click="fieldExists(micropanel.field,'mustNot');$hide();"></i>
     <br>
     <small>
         {{micropanel.count}} events in the table set
@@ -13,6 +14,7 @@
     </span>
     </small>
 </h4>
+    <div class="popover-content">
 <table style="width:100%;table-layout:fixed" class='table table-striped table-condensed'>
     <thead>
     <th style="width:260px">{{micropanel.field}}</th>
@@ -25,8 +27,8 @@
             undefined]|tableTruncate:panel.trimFactor:3}}
         </td>
         <td>
-            <i class="pointer icon-search" ng-click="build_search(micropanel.field,field[0]);dismiss();"></i>
-            <i class="pointer icon-ban-circle" ng-click="build_search(micropanel.field,field[0],true);dismiss();"></i>
+            <i class="pointer icon-search" ng-click="build_search(micropanel.field,field[0]);$hide();"></i>
+            <i class="pointer icon-ban-circle" ng-click="build_search(micropanel.field,field[0],true);$hide();"></i>
         </td>
         <td class="progress" style="position:relative">
             <style scoped>
@@ -46,3 +48,5 @@
          class="bar {{micropanelColor($index)}}" ng-style="{width: percent(field[1],data.length)};"></div>
 </div>
 <span ng-repeat='(field,count) in micropanel.related'><a ng-click="toggle_field(field)">{{field}}</a> ({{Math.round((count / micropanel.count) * 100)}}%), </span>
+    </div>
+</div>

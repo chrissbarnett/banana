@@ -461,6 +461,8 @@ define([
 
         // This also escapes some xml sequences
         module.filter('tableHighlight', function () {
+
+
             return function (text) {
                 if (!_.isUndefined(text) && !_.isNull(text) && text.toString().length > 0) {
                     return text.toString().
@@ -476,6 +478,8 @@ define([
         });
 
         module.filter('tableTruncate', function () {
+
+
             return function (text, length, factor, field, imageFields) {
                 // If image field, then do not truncate, otherwise we will get invalid URIs.
                 if (typeof field !== 'undefined' && imageFields.length > 0 && _.contains(imageFields, field)) {
@@ -522,6 +526,8 @@ define([
         // WIP
         module.filter('tableFieldFormat', function (fields) {
             return function (text, field, event, scope) {
+
+
                 var type;
                 if (
                     !_.isUndefined(fields.mapping[event._index]) && !_.isUndefined(fields.mapping[event._index][event._type])
@@ -538,6 +544,8 @@ define([
         // This filter will check the input field to see if it should be displayed as <img src="data">
         module.filter('tableDisplayImageField', function () {
             return function (data, field, imageFields, width, height) {
+
+
                 if (typeof field !== 'undefined' && imageFields.length > 0 && _.contains(imageFields, field)) {
                     return '<img style="width:' + width + '; height:' + height + ';" src="' + data + '">';
                 }
