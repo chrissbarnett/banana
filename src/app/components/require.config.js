@@ -46,6 +46,7 @@ require.config({
     solrjs:                   '../vendor/solrjs/solr-angular-client',
       d3: '../vendor/d3',
       leaflet: '../vendor/leaflet/leaflet',
+      'leaflet-omnivore': '../vendor/leaflet/leaflet-omnivore',
       chroma: '../vendor/chroma'
   },
   shim: {
@@ -99,7 +100,7 @@ require.config({
 
     'angular-strap':        ['angular', 'bootstrap','timepicker', 'datepicker'],
       'angular-strap-tpl': ['angular-strap'],
-
+      leaflet: ['leaflet-omnivore'],
     timepicker:             ['jquery', 'bootstrap'],
     datepicker:             ['jquery', 'bootstrap'],
 

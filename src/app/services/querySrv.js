@@ -192,7 +192,7 @@ function (angular, _, config) {
               }
               return solr_q;
           }
-          ;
+      };
 
           this.findQuery = function (queryString) {
               return _.findWhere(self.list, {query: queryString});
@@ -215,6 +215,6 @@ function (angular, _, config) {
 
 
           self.init();
-      }
+
   });
 });

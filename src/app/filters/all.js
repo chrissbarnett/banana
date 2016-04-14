@@ -134,6 +134,17 @@ define(['angular', 'jquery', 'underscore','showdown'], function(angular, $, _,Sh
     };
   });
 
+
+    module.filter('uridecode', function () {
+        return function (text) {
+            if (!_.isString(text)) {
+                return text;
+            } else {
+                return decodeURIComponent(text);
+            }
+        };
+    });
+
   module.filter('gistid', function() {
     var gist_pattern = /(\d{5,})|([a-z0-9]{10,})|(gist.github.com(\/*.*)\/[a-z0-9]{5,}\/*$)/;
     return function(input) {

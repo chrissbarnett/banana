@@ -23,6 +23,7 @@
     "moment": "2.1.0",
       "underscore": "1.8.3",
       "leaflet": "1.0.0-beta.2",
+      "leaflet-omnivore": "0.2.0",
       "chroma-js": "1.1.1"
   }
 }

@@ -183,7 +183,7 @@
   },
   "solr": {
     "server": "http://localhost:8983/solr/",
-    "core_name": "ogp",
+      "core_name": "test_geom",
     "core_list": [],
     "global_params": ""
   }

@@ -308,7 +308,7 @@ define([
                     return;
                 }
                 $scope.panelMeta.loading = true;
-                $scope.panel.queries.ids = querySrv.ids;//ByMode($scope.panel.queries);
+                $scope.panel.queries.ids = querySrv.idsByMode($scope.panel.queries);
 
                 // What this segment is for? => to select which indices to query.
                 var _segment = _.isUndefined(segment) ? 0 : segment;

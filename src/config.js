@@ -73,6 +73,16 @@ function (Settings) {
      * @type {Array}
      */
     panel_names: [
+        'bar',
+        'boundmap',
+        'countrymap',
+        'derivequeries',
+        'docviewer',
+        'heatgrid',
+        'histmap',
+        'simplefiltering',
+        'sunburst',
+        'tagcloudplus',
       'histogram',
       'map',
       'heatgrid',
