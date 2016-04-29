@@ -14,6 +14,7 @@ define([
             // Defaults for query objects
             var _geonames = {
                 jsonPath: "app/geojson/bounds.json",
+                geonamesSolr: "http://localhost:8983/solr/geonames",
                 database: "TestBoundsDatabase",
                 version: 1,
                 store: "bounds",
@@ -187,6 +188,12 @@ define([
              *
              * @param facet_results
              */
+
+            /*
+
+             TODO:  instead of looking up in the db, do a solr search on the geonames core.
+
+             */
             this._constructGeoJSON = function (facet_results) {
 
                 var deferred = $q.defer();
@@ -196,7 +203,7 @@ define([
 
                 self.bounds_geojson.features = [];
                 self.counts = [];
-
+                self.geonames_ids = [];
                 var len = facets.length;
                 _.each(facets, function (el, idx, list) {
                     if (idx % 2 !== 0) {
@@ -204,7 +211,12 @@ define([
                     }
                     var count = list[idx + 1];
                     self.counts.push(count);
-                    var lookup_callback = function (e) {
+                    self.geonames_ids.push(el);
+
+                    //form an OR solr query to the geonames core
+
+
+                    /*                    var lookup_callback = function (e) {
                         var db_result = e.target.result;
                         if (typeof db_result !== "undefined") {
                             var feature = get_feature(count);
@@ -224,9 +236,11 @@ define([
 
                     self.db.query(parseInt(el)).then(function (e) {
                         return lookup_callback(e);
-                    });
+                     });*/
 
                 });
+
+                console.log(self.geonames_ids);
 
                 //return a promise
                 return deferred.promise;
