@@ -13,13 +13,12 @@ define([
             //should do a couple different things
             // Defaults for query objects
             var _geonames = {
-                jsonPath: "app/geojson/bounds.json",
                 geonamesSolr: "http://localhost:8983/solr/geonames",
-                database: "TestBoundsDatabase",
+                database: "BoundsDatabase",
                 version: 1,
                 store: "bounds",
-                keyPath: "geonameId",
-                idField: "PlaceKeywordGeonames"
+                keyPath: "id",
+                idField: "geonames_id_ss"
             };
 
             // Save a reference to this
@@ -36,17 +35,16 @@ define([
                     version: _geonames.version,
                     store: _geonames.store,
                     keyPath: _geonames.keyPath,
-                    dataPath: _geonames.jsonPath,
-                    indices: [{field: "ids", unique: false}]
+                    solrCore: _geonames.geonamesSolr
                 };
-                //indexedDbFactory.remove(db_params.name).then(function(){
-                self.db = indexedDbFactory.getInstance(db_params);
+                indexedDbFactory.remove(db_params.name).then(function () {
+                    self.db = indexedDbFactory.getInstance(db_params);
 
-                self.db.init().then(function () {
-                    //the ready promise resolves once the db is ready.
-                    self.wait.resolve();
+                    self.db.init().then(function () {
+                        //the ready promise resolves once the db is ready.
+                        self.wait.resolve();
+                    });
                 });
-                //});
 
             };
 
@@ -109,7 +107,7 @@ define([
              * @returns {{type: string, geometry: {type: string, coordinates: Array}, properties: {count: *}}}
              * @private
              */
-            var get_feature = function (count) {
+            /*            var get_feature = function (count) {
                 return {
                     "type": "Feature",
                     "geometry": {
@@ -120,7 +118,7 @@ define([
                         "count": count
                     }
                 };
-            };
+             };*/
 
             /**
              * constructs a facet query to solr that returns a facet list of the form [facetval_i, facetcount_i....]
@@ -195,12 +193,10 @@ define([
 
              */
             this._constructGeoJSON = function (facet_results) {
-
                 var deferred = $q.defer();
 
                 //iterate over facets with counts;
                 var facets = facet_results.facet_counts.facet_fields[_geonames.idField];
-
                 self.bounds_geojson.features = [];
                 self.counts = [];
                 self.geonames_ids = [];
@@ -213,14 +209,13 @@ define([
                     self.counts.push(count);
                     self.geonames_ids.push(el);
 
-                    //form an OR solr query to the geonames core
-
-
-                    /*                    var lookup_callback = function (e) {
+                    var lookup_callback = function (e) {
                         var db_result = e.target.result;
                         if (typeof db_result !== "undefined") {
-                            var feature = get_feature(count);
-                            feature.geometry.coordinates.push(bboxToCoords(db_result.bounds));
+                            var feature = JSON.parse(db_result.bounds_s);
+                            feature.properties = {
+                                "count": count
+                            };
                             self.bounds_geojson.features.push(feature);
                         }
 
@@ -234,13 +229,13 @@ define([
                         }
                     };
 
-                    self.db.query(parseInt(el)).then(function (e) {
+                    self.db.query(el).then(function (e) {
                         return lookup_callback(e);
-                     });*/
+                    });
 
                 });
 
-                console.log(self.geonames_ids);
+                //console.log(self.geonames_ids);
 
                 //return a promise
                 return deferred.promise;

@@ -24,24 +24,27 @@ define([
             function DbInstance(params) {
                 //cursory parameter validation
                 var checkIndexParams = function (db_params) {
+                    if (!db_params.hasOwnProperty('indices')) {
+                        return true;
+                    }
+
                     var wellFormed = false;
-                    if (db_params.hasOwnProperty('indices')) {
-                        if (db_params.indices.constructor === Array) {
-                            for (var idx in db_params.indices) {
-                                var iprops = ['field', 'unique'];
-                                for (var p in iprops) {
-                                    wellFormed = db_params.indices[idx].hasOwnProperty(iprops[p]);
-                                }
+                    if (db_params.indices.constructor === Array) {
+                        for (var idx in db_params.indices) {
+                            var iprops = ['field', 'unique'];
+                            for (var p in iprops) {
+                                wellFormed = db_params.indices[idx].hasOwnProperty(iprops[p]);
                             }
                         }
                     }
+
                     return wellFormed;
                 };
 
                 var checkParams = function (db_params) {
                     var err = false;
                     var errMsg = "";
-                    var props = ['name', 'version', 'store', 'keyPath', 'indices', 'dataPath'];
+                    var props = ['name', 'version', 'store', 'keyPath'];
                     for (var p in props) {
                         if (!db_params.hasOwnProperty(props[p])) {
                             errMsg += "'" + props[p] + "' is a required parameter. ";
@@ -134,11 +137,9 @@ define([
                         // finished before adding data into it.
                         objectStore.transaction.oncomplete = function () {
                             //retrieve the data set, populate the object store, then resolve the upgrade deferred object
-                            self.get_data_set().then(function (response) {
-                                self.populateStore(initObj.store, response.data);
-                            }).then(function () {
-                                upgradeDeferred.resolve();
-                            });
+                            self.populateStore(initObj.store);
+
+                            upgradeDeferred.resolve(true);
 
                         };
                     };
@@ -148,13 +149,49 @@ define([
                     return init_promise;
                 };
 
-                /**
-                 * get the json array of objects
-                 * @returns {promise}
-                 * @private
-                 */
-                this.get_data_set = function () {
-                    return $http.get(params.dataPath);
+
+                this.get_solr_query = function (start, rows) {
+                    return params.solrCore + "/select?q=*&wt=json&rows=" + rows + "&start=" + start;
+                };
+
+
+                this.populateStore = function (storename) {
+
+                    if (params.hasOwnProperty("dataPath")) {
+                        //data is a static json file
+                        $http.get(params.dataPath).then(function (r) {
+                            self.populateChunk(storename, r.data);
+                        });
+                    } else if (params.hasOwnProperty("solrCore")) {
+                        //data is stored in a solr core. we must iterate over values
+
+                        var rows = 50;
+                        var start = 0;
+                        var the_data = [];
+
+                        var add_rows = function () {
+                            $http.get(self.get_solr_query(start, rows)).then(function (r) {
+                                var resp = r.data.response;
+                                start = start + rows;
+                                var remaining = resp.numFound - start;
+                                the_data = resp.docs;
+                                self.populateChunk(storename, the_data).then(function () {
+                                    if (remaining > 0) {
+                                        add_rows();
+                                    } else {
+                                        //console.log("populateStore finishing");
+                                    }
+
+                                });
+
+                            });
+                        };
+
+                        add_rows();
+
+                    }
+
+                    return true;
                 };
 
                 /**
@@ -165,7 +202,7 @@ define([
                  * @returns {deferred.promise|{then}}
                  * @private
                  */
-                this.populateStore = function (storename, data) {
+                this.populateChunk = function (storename, data) {
 
                     var deferred = $q.defer();
                     // Store values in the newly created objectStore.

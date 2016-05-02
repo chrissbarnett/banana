@@ -9,6 +9,6 @@ define([
   './panelMove',
         './solrSrv',
         './dbSrv',
-        './geonamesSrv'
+        './solrGeoSrv'
 ],
 function () {});

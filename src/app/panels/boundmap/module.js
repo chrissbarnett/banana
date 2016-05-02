@@ -19,7 +19,7 @@ define([
         var module = angular.module('kibana.panels.boundmap', []);
         app.useModule(module);
 
-        module.controller('boundmap', function ($scope, dashboard, querySrv, filterSrv) {
+        module.controller('boundmap', function ($scope, dashboard, querySrv, filterSrv, solrGeoSrv) {
             $scope.panelMeta = {
                 modals: [
                     {
@@ -46,8 +46,6 @@ define([
                     query: '*:*',
                     custom: ''
                 },
-                field: 'bounds_srpt',
-                max_rows: 100,
                 fillerpct: 1,
                 spyable: true,
                 show_queries: true
@@ -87,38 +85,7 @@ define([
                 $scope.$emit('renderData');
             };
 
-            $scope.get_fq = function () {
-                var fq = '';
-                if (filterSrv.getSolrFq() && filterSrv.getSolrFq() != '') {
-                    fq = '&' + filterSrv.getSolrFq();
-                }
-                return fq;
-            };
 
-            $scope.get_request = function (segment) {
-
-                var request = $scope.sjs.Request().indices(dashboard.indices[segment]);
-
-                $scope.panel_request = request; //panel_request created
-
-                var fq = $scope.get_fq();
-                var wt_json = '&wt=json';
-                var rows_limit = '&rows=' + $scope.panel.max_rows;
-                var start = '&start=0';
-
-                // Set the panel's query
-                $scope.panel.queries.basic_query = querySrv.getORquery() + fq;
-                $scope.panel.queries.query = $scope.panel.queries.basic_query + wt_json + rows_limit + start;
-
-                // Set the additional custom query
-                if ($scope.panel.queries.custom != null) {
-                    request = request.setQuery($scope.panel.queries.query + $scope.panel.queries.custom);
-                } else {
-                    request = request.setQuery($scope.panel.queries.query);
-                }
-
-                return request;
-            };
 
             $scope.get_data = function (segment, query_id) {
                 $scope.panel.error = false;
@@ -128,89 +95,13 @@ define([
                 if (dashboard.indices.length === 0) {
                     return;
                 }
-                $scope.panelMeta.loading = true;
-                $scope.panel.queries.ids = querySrv.idsByMode($scope.panel.queries);
 
-                // What this segment is for? => to select which indices to query.
-                var _segment = _.isUndefined(segment) ? 0 : segment;
-                $scope.segment = _segment;
-
-                $scope.sjs.client.server(dashboard.current.solr.server + dashboard.current.solr.core_name);
-
-                var results = $scope.get_request(_segment).doSearch();
-
-
-                // Populate scope when we have results
-                results.then(function (results) {
-                    $scope.panelMeta.loading = false;
-
-                    $scope.handle_response(results, _segment);
-
-                }).catch(
-                    function (err) {
-                        console.log(err);
-                    }
-                ).finally(function () {
-                    // Hide the spinning wheel icon
-                    $scope.panelMeta.loading = false;
-                });
-
-            };
-
-            $scope.handle_response = function (results, segment, query_id) {
-                if (segment === 0) {
-                    $scope.hits = 0;
-                    $scope.data = [];
-                    query_id = $scope.query_id = new Date().getTime();
-                } else {
-                    // Fix BUG with wrong total event count.
-                    $scope.data = [];
-                }
-
-                // Check for error and abort if found
-                if (!(_.isUndefined(results.error))) {
-                    $scope.panel.error = $scope.parse_error(results.error.msg); // There's also results.error.code
-                    return;
-                }
-
-                // Check that we're still on the same query, if not stop
-                if ($scope.query_id === query_id) {
-
-                    // Solr does not need to accumulate hits count because it can get total count
-                    // from a single faceted query.
-                    var docs = results.response.docs;
-                    angular.forEach(docs, function (item) {
-                        console.log(item);
-                        $scope.data.push({"wkt": item[$scope.panel.field], "label": item["toponym_ss"][0]});
-                    });
-
-                    console.log($scope.data);
-                    $scope.renderData();
-
-                } else {
-                    return;
-                }
-
-                // If we're not sorting in reverse chrono order, query every index for
-                // size*pages results
-                // Otherwise, only get size*pages results then stop querying
-                /*      if (($scope.data.length < $scope.panel.size*$scope.panel.pages ||
-                 !((_.contains(filterSrv.timeField(),$scope.panel.sort[0])) && $scope.panel.sort[1] === 'desc')) &&
-                 segment+1 < dashboard.indices.length) {
-                 $scope.get_data(segment+1,$scope.query_id);
-                 }*/
-
-            };
-
-
-            /*            $scope.get_data = function () {
-                // Show the spinning wheel icon
                 $scope.panelMeta.loading = true;
 
-                // Execute the search and get results
-                geonamesSrv.getGeoJSON($scope.panel.queries.custom).then(function (data) {
+
+                solrGeoSrv.getGeoJSON($scope.panel.queries.custom).then(function (data) {
                     $scope.bounds_geojson = data.geojson;
-                    $scope.counts = data.values;
+                    //$scope.counts = data.values;
                     $scope.renderData();
 
                 }).catch(
@@ -221,7 +112,9 @@ define([
                     // Hide the spinning wheel icon
                     $scope.panelMeta.loading = false;
                 });
-             };*/
+
+            };
+
         });
 
 
@@ -292,46 +185,11 @@ define([
                     };
 
 
-                    scope.calculateBreaks = function (categories) {
-                        var breaks = [];
-                        var vals = _.values(scope.data);
-
-                        if (vals.length === 0) {
-                            return breaks;
-                        }
-
-                        var max = _.max(vals);
-                        var trimmed = _.without(vals, max);
-                        if (trimmed.length === 0) {
-                            trimmed = vals;
-                        }
-
-                        breaks = chroma.limits(trimmed, 'k', categories);
-
-                        breaks.push(max, max);
-                        breaks.unshift(breaks[0]);
-                        return breaks;
-                    };
-
-                    scope.getScale = function (breaks) {
-                        return chroma.scale('Blues').padding([.2, 0]).classes(breaks);
-                    };
-
                     scope.addDataLayer = function () {
 
                         if (typeof scope.bounds_geojson === "undefined") {
                             return;
                         }
-
-                        /*                        var cats = 6;
-                         var breaks = scope.calculateBreaks(cats);
-                         if (breaks.length === 0){
-                         return;
-                         }
-
-                         function getColor(count){
-                         return scope.getScale(breaks)(count).hex();
-                         }*/
 
 
                         function style(feature) {
@@ -347,6 +205,7 @@ define([
 
 
                         function doCount(e) {
+
                             var results = scope.pointInBoundingBox(e.latlng, scope.bounds_geojson);
                             var j = 0;
                             _.each(results, function (r) {
@@ -365,7 +224,6 @@ define([
                             });
 
                         }
-
 
                         scope.dataLayer = L.geoJson(scope.bounds_geojson, {
                             style: style,

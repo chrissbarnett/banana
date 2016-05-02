@@ -19,7 +19,7 @@ define([
         var module = angular.module('kibana.panels.histmap', []);
         app.useModule(module);
 
-        module.controller('histmap', function ($scope, dashboard, geonamesSrv) {
+        module.controller('histmap', function ($scope, dashboard, solrGeoSrv) {
             $scope.panelMeta = {
                 modals: [
                     {
@@ -94,9 +94,8 @@ define([
             $scope.get_data = function () {
                 // Show the spinning wheel icon
                 $scope.panelMeta.loading = true;
-
                 // Execute the search and get results
-                geonamesSrv.getGeoJSON($scope.panel.queries.custom).then(function (data) {
+                solrGeoSrv.getGeoJSON($scope.panel.queries.custom).then(function (data) {
                     $scope.bounds_geojson = data.geojson;
                     $scope.counts = data.values;
                     $scope.renderData();
@@ -286,11 +285,11 @@ define([
                         var features = scope.bounds_geojson.features;
                         for (var i = 0; i < features.length; i++) {
                             var f = features[i];
+
                             if (polyBboxCollision(bbox, f.geometry.coordinates)) {
                                 count += f.properties.count;
                             }
                         }
-                        ;
                         return count;
                     };
 
@@ -299,10 +298,11 @@ define([
                     };
 
 
-                    var polyBboxCollision = function (point, polyBounds) {
+                    var polyBboxCollision = function (bbox, polyBounds) {
+
                         //polybounds are polygon envelopes: [[minx, miny], [maxx, miny], [maxx, maxy], [minx, maxy], [minx, miny]]
                         var bounds = [polyBounds[0][0][0], polyBounds[0][0][1], polyBounds[0][2][0], polyBounds[0][2][1]];
-                        return bboxCollision(point, bounds);
+                        return bboxCollision(bbox, bounds);
                     };
 
 
