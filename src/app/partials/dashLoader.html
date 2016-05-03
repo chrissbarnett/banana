@@ -106,7 +106,9 @@
   </ul>
 </li>
 <!-- Configure menu -->
-<li ng-show="dashboard.current.editable" bs-tooltip data-title="Configure dashboard" data-placement="bottom"><a href='#'
-                                                                                                                bs-modal
-                                                                                                                data-template-url="app/partials/dasheditor.html"><i
-    class='icon-cog pointer'></i></a></li>
+<li ng-show="dashboard.current.editable" bs-tooltip data-title="Configure dashboard" data-placement="bottom">
+    <a href="#" bs-modal data-template-url="app/partials/dasheditor.html" ng-click="skipDefault($event)">
+        <i class='icon-cog pointer'></i>
+    </a>
+</li>
+

@@ -47,6 +47,10 @@ function (angular, _) {
       }
       return false;
     };
+
+      $scope.skipDefault = function (e) {
+          e.preventDefault();
+      };
     
     $scope.create_new = function(type) {
       $http.get('app/dashboards/' + type + '.json?' + new Date().getTime()).

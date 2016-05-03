@@ -208,6 +208,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
     };
 
     this.dash_load = function(dashboard) {
+        console.log("dash load");
       // Cancel all timers
       timer.cancel_all();
 
@@ -262,6 +263,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
     };
 
     this.set_default = function(dashboard) {
+        console.log("set default");
       if (Modernizr.localstorage) {
         window.localStorage['dashboard'] = angular.toJson(dashboard || self.current);
         $location.path('/dashboard');
