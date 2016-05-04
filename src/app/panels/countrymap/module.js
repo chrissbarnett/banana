@@ -397,7 +397,7 @@ define([
                     function render_panel() {
                         L.Icon.Default.imagePath = 'vendor/leaflet/images';
                         if (_.isUndefined(map)) {
-                            map = L.map(attrs.id, {
+                            map = L.map(elem[0], {
                                 scrollWheelZoom: true,
                                 center: [0, 0],
                                 zoom: 1

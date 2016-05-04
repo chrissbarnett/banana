@@ -85,7 +85,6 @@ function (Settings) {
         'tagcloudplus',
       'histogram',
       'map',
-      'heatgrid',
       'mapfilter',
       'serverPageTable',
       'table',

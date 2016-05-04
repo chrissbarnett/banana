@@ -1,13 +1,13 @@
 <div ng-controller="boundmap" ng-init="init()">
     <style>
 
-        div#boundmap {
+        div.boundmap {
             height: 100%;
             min-height: 256px;
             position: relative;
         }
 
-        div#boundmap .leaflet-top, .leaflet-bottom {
+        div.boundmap .leaflet-top, .leaflet-bottom {
             z-index: 500;
         }
 
@@ -17,6 +17,6 @@
         }
     </style>
     <div class="map_legend">{{display.info}}</div>
-    <div data-bound-map id="boundmap"></div>
+    <div data-bound-map class="boundmap"></div>
 
 </div>

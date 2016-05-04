@@ -383,10 +383,9 @@ define([
 
 
                     function render_panel() {
-                        //scope.panelMeta.loading = false;
-                        L.Icon.Default.imagePath = 'app/panels/histmap/leaflet/images';
+                        L.Icon.Default.imagePath = 'vendors/leaflet/images';
                         if (_.isUndefined(map)) {
-                            map = L.map(attrs.id, {
+                            map = L.map(elem[0], {
                                 scrollWheelZoom: true,
                                 center: [0, 0],
                                 zoom: 1
