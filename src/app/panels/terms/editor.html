@@ -50,6 +50,10 @@
     <label class="small" >Legend Format</label>
     <select class="input-small" ng-model="panel.arrangement" ng-options="f for f in ['horizontal','vertical']"></select></span>
   </div>
+    <div class="span1">
+        <label class="small">Export</label><input type="checkbox" ng-model="panelMeta.exportfile"
+                                                  ng-checked="panelMeta.exportfile">
+    </div>
   <div class="span1">
     <label class="small">Missing</label><input type="checkbox" ng-model="panel.missing" ng-checked="panel.missing">
   </div>

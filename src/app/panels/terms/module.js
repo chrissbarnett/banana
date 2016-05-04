@@ -33,7 +33,7 @@ function (angular, app, _, $, kbn) {
           show: $scope.panel.spyable
         }
       ],
-      exportfile: true,
+        exportfile: false,
       editorTabs : [
         {title:'Queries', src:'app/partials/querySelect.html'}
       ],
