@@ -208,7 +208,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
     };
 
     this.dash_load = function(dashboard) {
-        console.log("dash load");
+        //console.log("dash load");
       // Cancel all timers
       timer.cancel_all();
 

@@ -395,6 +395,42 @@ define([
 
 
                     function render_panel() {
+
+
+                        var globalControl = L.Control.extend({
+                            options: {
+                                position: 'topleft'
+                                //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
+                            },
+
+                            onAdd: function (map) {
+                                var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+
+                                container.style.backgroundColor = 'white';
+                                container.style.width = '26px';
+                                container.style.height = '26px';
+
+                                var label = L.DomUtil.create('span', 'icon-globe');
+                                //color: black; font-size: 22px; line-height: 26px; margin-left: 3px
+                                label.style.color = '#555';
+                                label.style.fontSize = '22px';
+                                label.style.marginLeft = '3px';
+                                label.style.lineHeight = '26px';
+
+                                container.appendChild(label);
+
+                                container.onclick = function () {
+                                    //we're more interested in roughly fitting the width of the world
+                                    map.fitBounds([
+                                        [-30, -170],
+                                        [30, 170]
+                                    ]);
+                                }
+                                return container;
+                            }
+
+                        });
+
                         L.Icon.Default.imagePath = 'vendor/leaflet/images';
                         if (_.isUndefined(map)) {
                             map = L.map(elem[0], {
@@ -408,6 +444,8 @@ define([
                                 subdomains: 'abcd',
                                 maxZoom: 19
                             }).addTo(map);
+
+                            map.addControl(new globalControl());
 
                             scope.refreshData();
                         }

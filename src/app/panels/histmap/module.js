@@ -14,8 +14,6 @@ define([
     function (angular, app, _, $, L, chroma) {
         'use strict';
 
-        //$.getScript("app/panels/boundmap/queue.js");
-
         var module = angular.module('kibana.panels.histmap', []);
         app.useModule(module);
 
@@ -240,45 +238,6 @@ define([
 
                     };
 
-                    /*                    function getFill(d) {
-                     var c = scope.palatte;
-                     // for now, just do equal interval
-                     /!*                    var category = Math.round(scope.palatte.length * Math.min(2 * d /Math.max(scope.maxCount, 1), 1)) - 1;
-                     if (category < 0){
-                     category = 0;
-                     }*!/
-
-                     var category = Math.round(d / 5);
-
-                     if (d <= 1) {
-                     return {
-                     fillColor: '#ffffff',
-                     fillOpacity: 0,
-                     stroke: false
-                     };
-                     }
-                     if (category >= c.length) {
-                     return {
-                     fillColor: c[c.length - 1],
-                     fillOpacity: .9,
-                     weight: .3,
-                     color: '#000000'
-                     };
-                     } else {
-                     return {
-                     fillColor: c[category],
-                     fillOpacity: .65,
-                     weight: .3,
-                     color: '#000000'
-                     };
-                     }
-                     };
-
-                     function style(feature) {
-                     var count = feature.properties.count;
-                     return getFill(count);
-                     }*/
-
 
                     scope.getIntersections = function (bbox) {
                         var count = 0;
@@ -351,44 +310,56 @@ define([
 
                     scope.legend = null;
 
-                    function createLegend() {
-                        if (scope.legend !== null) {
-                            map.removeControl(scope.legend);
-                        }
-
-                        scope.legend = L.control({position: 'bottomright'});
-
-                        scope.legend.onAdd = function (map) {
-
-                            var div = L.DomUtil.create('div', 'info legend'),
-                                labels = [];
-                            var interval = Math.floor(scope.maxCount / scope.palatte.length);
-                            // loop through our density intervals and generate a label with a colored square for each interval
-                            for (var i = 0; i < scope.palatte.length; i++) {
-                                div.innerHTML +=
-                                    '<span class="swatch" style="background:' + scope.palatte[i] + '"></span> ' +
-                                    '<span class="interval">' + interval * i + '</span><br>';
-                            }
-
-                            return div;
-                        };
-
-                        scope.legend.addTo(map);
-                    }
-
-                    scope.palatte = ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#800026'];
-
 
                     scope.maxCount = 1;
 
 
                     function render_panel() {
                         L.Icon.Default.imagePath = 'vendors/leaflet/images';
+
+
+                        var globalControl = L.Control.extend({
+                            options: {
+                                position: 'topleft'
+                                //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
+                            },
+
+                            onAdd: function (map) {
+                                var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+
+                                container.style.backgroundColor = 'white';
+                                container.style.width = '26px';
+                                container.style.height = '26px';
+
+                                var label = L.DomUtil.create('span', 'icon-globe');
+                                //color: black; font-size: 22px; line-height: 26px; margin-left: 3px
+                                label.style.color = '#555';
+                                label.style.fontSize = '22px';
+                                label.style.marginLeft = '3px';
+                                label.style.lineHeight = '26px';
+
+                                container.appendChild(label);
+
+                                container.onclick = function () {
+                                    //we're more interested in roughly fitting the width of the world
+                                    map.fitBounds([
+                                        [-30, -170],
+                                        [30, 170]
+                                    ]);
+                                }
+                                return container;
+                            }
+
+                        });
+
+
+
                         if (_.isUndefined(map)) {
                             map = L.map(elem[0], {
                                 scrollWheelZoom: true,
                                 center: [0, 0],
-                                zoom: 1
+                                zoom: 1,
+                                worldCopyJump: true
                             });
 
                             L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -396,6 +367,8 @@ define([
                                 subdomains: 'abcd',
                                 maxZoom: 19
                             }).addTo(map);
+
+                            map.addControl(new globalControl());
 
 
                         }

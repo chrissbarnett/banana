@@ -37,6 +37,7 @@ define([
                     keyPath: _geonames.keyPath,
                     solrCore: _geonames.geonamesSolr
                 };
+
                 indexedDbFactory.remove(db_params.name).then(function () {
                     self.db = indexedDbFactory.getInstance(db_params);
 
