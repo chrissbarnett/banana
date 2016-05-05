@@ -202,6 +202,7 @@ define([
                             }
                         }
                     });
+
                     $scope.$broadcast('render');
                 });
             };
@@ -318,12 +319,16 @@ define([
 
         });
 
-        module.directive('tagcloudChart', function () {
+        module.directive('tagcloudPlusChart', function () {
             return {
                 restrict: 'A',
                 templateUrl: 'app/panels/tagcloudplus/tagcloudWidget.html',
                 transclude: true,
                 link: function (scope, element) {
+
+                    if (scope.data.length > 0) {
+                        render_cloud();
+                    }
                     // Receive render events
                     scope.$on('render', function () {
                         render_cloud();

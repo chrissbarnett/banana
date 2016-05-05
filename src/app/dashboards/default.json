@@ -102,7 +102,27 @@
             "default"
           ],
           "type": "filtering"
-        }
+        },
+          {
+              "span": 4,
+              "editable": true,
+              "type": "tagcloudplus",
+              "loadingEditor": false,
+              "queries": {
+                  "mode": "all",
+                  "ids": [
+                      0
+                  ],
+                  "query": "q=water&qf=_text_%5E1&defType=edismax&wt=json&rows=0&fq=*&facet=true&facet.method=fc&facet.field=kw_1_ss&facet.limit=10",
+                  "custom": ""
+              },
+              "field": "kw_1_ss",
+              "size": 10,
+              "alignment": "vertical and horizontal",
+              "fontScale": 1,
+              "spyable": true,
+              "show_queries": true
+          }
       ]
     },
     {

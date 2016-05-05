@@ -69,7 +69,8 @@
         <button class="list-toggle" ng-click="toggleList()" data-title="{{ getMessage() }}" bs-tooltip><i
             class="pointer" ng-class="{'icon-list': !list.display, 'icon-cloud': list.display}"></i></button>
 
-        <div ng-if="!getListDisplay()" class="animate-if" tagcloud-chart style="overflow:hidden; position:relative">
+        <div ng-if="!getListDisplay()" class="animate-if" tagcloud-plus-chart
+             style="overflow:hidden; position:relative">
             <div class="filters">
                 <span ng-show="filterSrv.ids.length == 0">No filters applied</span>
             <span ng-repeat="f in fieldFilter(filterSrv.list)" class="label filter-tag pointer">

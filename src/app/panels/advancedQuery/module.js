@@ -8,7 +8,6 @@
  one element
  */
 
-var $test;
 
 define([
     'angular',
@@ -44,7 +43,7 @@ define([
             queryType: "",
             remember: 10, // max: 100, angular strap can't take a variable for items param
             fields: [],
-            queryFields: [],
+            queryFields: [{field: "_text_", boost: 1}],
             phraseFields: [],
             phraseSlop: null
         };
@@ -111,7 +110,6 @@ define([
         // add 'pf' params and 'ps'
 
         $scope.refresh = function (id) {
-
             if (_.isUndefined(id)) {
                 id = 0;
             }
