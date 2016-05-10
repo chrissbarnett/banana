@@ -341,7 +341,7 @@ define([
 
 
                     function get_cloud_element() {
-                        var el_arr = element.find('div.tagcloud');
+                        var el_arr = element.find('div.tagcloud-plus');
                         if (el_arr.size() > 0) {
                             return el_arr.first();
                         } else {
