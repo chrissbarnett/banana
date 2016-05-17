@@ -101,6 +101,22 @@
   z-index: 800;
 }
 
+.panel-title {
+    padding: 3px 9px;
+    font-weight: 400;
+    font-size: 1.1em;
+}
+
+.panelCont {
+    box-shadow: 0 1px 2px 2px #111;
+    outline: 0 none;
+    background: #202328 none repeat scroll 0 0;
+    border-top: 1px solid #3e444c;
+    margin: 0;
+    outline: 1px solid #101214;
+    padding: 0 10px 10px;
+}
+
 .panel span.panelextra {
   position: absolute;
   z-index: 800;

@@ -11,7 +11,7 @@ function (angular) {
 
           var editorTemplate = '<div class="row-fluid panel-extra"><div class="panel-extra-container">' +
               '<span class="extra row-button panel-drag" ng-hide="panel.draggable == false">' +
-              '<span class="row-text pointer" bs-tooltip data-title="Drag here to move"' +
+              '<span class="row-text pointer icon-reorder" bs-tooltip data-title="Drag here to move"' +
             'data-drag=true data-jqyoui-options="{revert: \'invalid\',helper:\'clone\'}"'+
             ' jqyoui-draggable="'+
             '{'+
@@ -20,10 +20,10 @@ function (angular) {
               'index:{{$index}},'+
               'onStart:\'panelMoveStart\','+
               'onStop:\'panelMoveStop\''+
-              '}"  ng-model="row.panels">{{panel.type}}</span>'+
+              '}"  ng-model="row.panels"></span>' +
           '</span>' +
               '<span class="extra row-button panel-drag" ng-show="panel.draggable == false">' +
-            '<span class="row-text">{{panel.type}}</span>'+
+                  //'<span class="row-text">{{panel.type}}</span>'+
           '</span>' +
 
           '<span class="extra row-button" ng-show="panel.editable != false">' +

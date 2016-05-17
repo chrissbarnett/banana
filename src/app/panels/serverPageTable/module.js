@@ -168,6 +168,12 @@ define([
                 $scope.get_data();
             };
 
+                $scope.move_column = function (fromIndex, toIndex) {
+                    var array = $scope.panel.fields;
+                    array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
+                    return array;
+                };
+
             $scope.toggle_field = function (field) {
                 if (_.indexOf($scope.panel.fields, field) > -1) {
                     $scope.panel.fields = _.without($scope.panel.fields, field);

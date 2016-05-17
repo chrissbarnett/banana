@@ -48,6 +48,18 @@ function (angular, config, _) {
       }
     };
 
+      $scope.move_row = function (fromIndex, toIndex) {
+          //dashboard.current.rows
+          var array = dashboard.current.rows;
+          array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
+          return array;
+      };
+
+      $scope.move = function (array, fromIndex, toIndex) {
+          array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
+          return array;
+      };
+
     $scope.add_row = function(dash,row) {
       dash.rows.push(row);
     };

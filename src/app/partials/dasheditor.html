@@ -57,10 +57,10 @@
                                             <td><i
                                                 ng-click="dashboard.current.rows = _.without(dashboard.current.rows,row)"
                                                 class="pointer icon-remove"></i></td>
-                                            <td><i ng-click="_.move(dashboard.current.rows,$index,$index-1)"
+                                            <td><i ng-click="move_row($index,$index-1)"
                                                    ng-hide="$first"
                                                    class="pointer icon-arrow-up"></i></td>
-                                            <td><i ng-click="_.move(dashboard.current.rows,$index,$index+1)"
+                                            <td><i ng-click="move_row($index,$index+1)"
                                                    ng-hide="$last"
                                                    class="pointer icon-arrow-down"></i></td>
                                         </tr>

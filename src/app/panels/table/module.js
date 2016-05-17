@@ -159,7 +159,10 @@ function (angular, app, _, kbn, moment) {
         return;
       }
     };
-
+      $scope.move = function (array, fromIndex, toIndex) {
+          array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
+          return array;
+      };
     // Toggle important field that will appear to the left of table panel
     $scope.toggle_important_field = function(field) {
       if (_.indexOf($scope.panel.important_fields,field) > -1) {

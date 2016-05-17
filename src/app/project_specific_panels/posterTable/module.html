@@ -66,7 +66,7 @@
                 <th ng-show="panel.fields.length<1">message (select columns from the list to the left)</th>
                 <th style="white-space:nowrap" ng-repeat="field in panel.fields">
                     <i ng-show="!$first" class="pointer link icon-caret-left"
-                       ng-click="_.move(panel.fields,$index,$index-1)"></i>
+                       ng-click="move(panel.fields,$index,$index-1)"></i>
             <span class="pointer" ng-click="set_sort(field)" ng-show='panel.sortable'>
               {{getAlias(field)}}
               <i ng-show='field == panel.sort[0]' class="pointer link"
@@ -74,7 +74,7 @@
             </span>
                     <span ng-show='!panel.sortable'>{{field}}</span>
                     <i ng-show="!$last" class="pointer link icon-caret-right"
-                       ng-click="_.move(panel.fields,$index,$index+1)"></i>
+                       ng-click="move(panel.fields,$index,$index+1)"></i>
                 </th>
                 <!-- Hyperlink column header -->
                 <th ng-show="panel.enableHyperlink" style="white-space:nowrap">{{panel.hyperlinkColumnHeader}}</th>

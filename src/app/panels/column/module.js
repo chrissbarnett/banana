@@ -53,6 +53,11 @@ function (angular, app, _, config) {
       $scope.panel.panels.push(panel);
     };
 
+      $scope.move = function (array, fromIndex, toIndex) {
+          array.splice(toIndex, 0, array.splice(fromIndex, 1)[0]);
+          return array;
+      };
+
     $scope.reset_panel = function(type) {
       $scope.new_panel = {
         loading: false,
